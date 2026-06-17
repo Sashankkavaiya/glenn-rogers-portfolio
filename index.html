@@ -17,6 +17,16 @@
     <script src="https://unpkg.com/framer-motion@11.0.3/dist/framer-motion.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Force classic JSX runtime so Babel doesn't emit ES module imports
+        const _babelTransform = Babel.transform.bind(Babel);
+        Babel.transform = (code, opts = {}) => {
+            opts.presets = (opts.presets || []).map(p =>
+                p === 'react' ? ['react', { runtime: 'classic' }] : p
+            );
+            return _babelTransform(code, opts);
+        };
+    </script>
 
     <script>
         tailwind.config = {
